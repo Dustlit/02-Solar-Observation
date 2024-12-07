@@ -234,14 +234,57 @@
 
             <label for="attendees">Number of Attendees</label>
             <input type="tel" id="attendees" name="attendees" min="1" required oninput="updatePayment()">
-					
-			<!-- UPI Payment Section -->
-    <section id="payment" class="upi-payment">
-        <h2>Pay for the Event</h2>
-        <p id="total-amount">Total Amount: ₹500</p>
-        <a id="upi-link" href="upi://pay?pa=visualsofsai@okhdfcbank&pn=SolarObservatory&cu=INR" target="_blank">Pay via UPI</a>
+
+
+
 		
-    </section>
+		
+	<button type="button" id="calculate-button">Calculate Amount</button>
+
+    <div class="payment-link" id="payment-section" style="display: none;">
+        <p id="amount" style="text-align: center;">Amount to Pay: </p>
+        <a id="upi-link" href="" target="_blank">
+            <button type="button">Pay via UPI</button>
+        </a>
+    </div>
+	
+<script>
+    let totalRegistered = 0;
+
+    document.getElementById('calculate-button').addEventListener('click', () => {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const attendees = parseInt(document.getElementById('attendees').value);
+
+        if (name && phone && attendees > 0) {
+            const amount = attendees * 500;
+            document.getElementById('amount').textContent = `Amount to Pay: ₹${amount}`;
+
+            const upiLink = `upi://pay?pa=visualsofsai@okhdfcbank&pn=SolarObservatory&cu=INR&am=${amount}`;
+            document.getElementById('upi-link').href = upiLink;
+
+            document.getElementById('payment-section').style.display = 'block';
+
+            totalRegistered += attendees;
+            document.getElementById('registered-count').textContent = `Total Registered: ${totalRegistered}`;
+        } else {
+            alert('Please fill in all fields correctly.');
+        }
+			function handlePayment() {
+            const now = new Date();
+            paymentTime = now.toLocaleString();
+            alert(`Payment initiated at ${paymentTime}. You will be redirected.`);
+            setTimeout(() => {
+                window.location.href = "https://dustlit.github.io/02-Solar-Observation/"; // Replace with your success page URL
+            }, 3000); // Simulate redirection delay
+        }
+    });	
+	</script>
+
+
+
+		
+
 		<!-- Click Submit To Complete Registration -->
 		<p style="text-align: center;"> Click Submit To Complete Registration Process<p>
             <button type="submit">Submit</button>
