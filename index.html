@@ -331,34 +331,22 @@
 
     console.log("Submission Date (IST):", istFormatted); // Debugging log
 
-fetch(form.action, {
-    method: "POST",
-    body: formData,
-})
-.then(response => {
-    // Check if the response is successful
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json(); // Parse the response as JSON
-})
-.then((result) => {
-    console.log("Form submitted successfully:", result);
+    fetch(form.action, {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json())
+    .then((result) => {
+        console.log("Form submitted successfully:", result);
 
-    // Show thank-you message
-    const thankYouMessage = document.getElementById("thank-you-message");
-    thankYouMessage.style.display = "block";
+        const thankYouMessage = document.getElementById("thank-you-message");
+        thankYouMessage.style.display = "block";
 
-    // Reset the form and update payment
-    form.reset();
-    updatePayment();
-})
-.catch(error => {
-    // Handle errors
-    console.error("Error submitting form:", error);
-    alert("An error occurred while submitting the form. Please try again.");
+        form.reset();
+        updatePayment();
+    })
+ 
 });
-
 
 </script>
 
