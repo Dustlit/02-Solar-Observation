@@ -88,7 +88,7 @@
         }
 
         .registration-form input, .registration-form textarea {
-            width: 100%;
+            
             padding: 10px;
             margin-bottom: 15px;
             border: none;
@@ -96,7 +96,7 @@
         }
 
         .registration-form button {
-            width: 100%;
+            
             padding: 15px;
             background-color: #ff6600;
             color: #fff;
@@ -113,7 +113,7 @@
         }
 
         .upi-payment a {
-            padding: 15px 30px;
+            padding: 15px 15px;
             background-color: #ff6600;
             color: #fff;
             border-radius: 5px;
@@ -231,23 +231,27 @@
 
             <label for="phone">Phone Number</label>
             <input type="tel" id="phone" name="phone" required>
-
+			
+	<label>Select Event Date:</label>
+            <div class="radio-group">
+              <label>
+                    <input type="radio" name="event_date" value="14th December 2024" required>14th December 2024</label>
+                <label>
+                    <input type="radio" name="event_date" value="15th December 2024">15th December 2024</label>
+					
             <label for="attendees">Number of Attendees</label>
             <input type="tel" id="attendees" name="attendees" min="1" required oninput="updatePayment()">
-
-
-
 		
-		
-	<button type="button" id="calculate-button">Calculate Amount</button>
+		<button type="button" id="calculate-button">Calculate Amount</button>
 
     <div class="payment-link" id="payment-section" style="display: none;">
-        <p id="amount" style="text-align: center;">Amount to Pay: </p>
+        <p id="amount" style="text-align: left;">Amount to Pay: </p>
         <a id="upi-link" href="" target="_blank">
             <button type="button">Pay via UPI</button>
         </a>
     </div>
 	
+
 <script>
     let totalRegistered = 0;
 
@@ -280,13 +284,9 @@
         }
     });	
 	</script>
-
-
-
-		
-
+	
 		<!-- Click Submit To Complete Registration -->
-		<p style="text-align: center;"> Click Submit To Complete Registration Process<p>
+		<p style="text-align: left;"> Click Submit To Complete Registration Process<p>
             <button type="submit">Submit</button>
         </form>
     </section>
@@ -306,20 +306,62 @@
 	
 	<script>
             var form = document.getElementById('sheetdb-form');
-        form.addEventListener("submit", e => {
-          e.preventDefault();
-          fetch(form.action, {
-              method : "POST",
-              body: new FormData(document.getElementById("sheetdb-form")),
-          }).then(
-              response => response.json()
-          ).then((html) => {
-            // you can put any JS code here
-           
+        
+    form.addEventListener("submit", e => {
+    e.preventDefault();
 
-          });
-        });
-        </script>
+    // Get the current time in IST
+    const now = new Date();
+    const utcOffset = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const istTime = new Date(utcOffset + (5.5 * 60 * 60 * 1000)); // IST is UTC+5:30
+
+    // Format IST time into a readable format
+    const istFormatted = istTime.toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+
+    const formData = new FormData(form);
+    formData.append("submission_date", istFormatted); // Add formatted IST time
+
+    console.log("Submission Date (IST):", istFormatted); // Debugging log
+
+fetch(form.action, {
+    method: "POST",
+    body: formData,
+})
+.then(response => {
+    // Check if the response is successful
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json(); // Parse the response as JSON
+})
+.then((result) => {
+    console.log("Form submitted successfully:", result);
+
+    // Show thank-you message
+    const thankYouMessage = document.getElementById("thank-you-message");
+    thankYouMessage.style.display = "block";
+
+    // Reset the form and update payment
+    form.reset();
+    updatePayment();
+})
+.catch(error => {
+    // Handle errors
+    console.error("Error submitting form:", error);
+    alert("An error occurred while submitting the form. Please try again.");
+});
+
+
+</script>
+
 
 </body>
 </html>
