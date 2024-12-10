@@ -264,7 +264,7 @@
             const amount = attendees * 500;
             document.getElementById('amount').textContent = `Amount to Pay: ₹${amount}`;
 
-            const upiLink = `upi://pay?pa=visualsofsai@okaxisbank&pn=SolarObservatory&cu=INR&am=${amount}`;
+            const upiLink = `upi://pay?pa=visualsofsai@okaxis&pn=SolarObservatory&cu=INR&am=${amount}`;
             document.getElementById('upi-link').href = upiLink;
 
             document.getElementById('payment-section').style.display = 'block';
