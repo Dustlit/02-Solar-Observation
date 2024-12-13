@@ -158,7 +158,7 @@
             
             // Update UPI payment link with the correct amount
             let upiLink = document.getElementById('upi-link');
-            upiLink.href = `upi://pay?pa=visualsofsai@okhdfcbank&pn=Sai%20Srinivas&aid=uGICAgMCC67XWaA&cu=INR`;
+            upiLink.href = `upi://pay?pa=visualsofsai@okhdfcbank&pn=Sai%20Srinivas&aid=uGICAgMCC67XWaA`;
             
             // Display total amount
             document.getElementById('total-amount').innerText = `Total Amount: ₹${amount}`;
@@ -264,7 +264,7 @@
             const amount = attendees * 500;
             document.getElementById('amount').textContent = `Amount to Pay: ₹${amount}`;
 
-            const upiLink = `upi://pay?pa=visualsofsai@okhdfcbank&pn=Sai%20Srinivas&aid=uGICAgMCC67XWaA&cu=INR&am=${amount}`;
+            const upiLink = `upi://pay?pa=visualsofsai@okhdfcbank&pn=Sai%20Srinivas&aid=uGICAgMCC67XWaA`;
             document.getElementById('upi-link').href = upiLink;
 
             document.getElementById('payment-section').style.display = 'block';
